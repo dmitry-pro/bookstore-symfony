@@ -1,0 +1,16 @@
+services:
+    admin.domains:
+        class: BackofficeBundle\Admin\BookAdmin
+        arguments: [~, DataBundle\Entity\Book, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Books' }
+    admin.genres:
+        class: BackofficeBundle\Admin\GenreAdmin
+        arguments: [~, DataBundle\Entity\Genre, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Genres' }
+    admin.authors:
+        class: BackofficeBundle\Admin\AuthorAdmin
+        arguments: [~, DataBundle\Entity\Author, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: 'Authors' }

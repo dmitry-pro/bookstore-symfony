@@ -13,7 +13,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -76,3 +76,15 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Databundle:User
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        # Your other blocks
+        sonata.admin.block.search_result:
+            contexts:   [admin]
+        sonata.admin.block.stats:
+            contexts:   [admin]
