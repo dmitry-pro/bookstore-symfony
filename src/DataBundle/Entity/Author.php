@@ -35,9 +35,6 @@ class Author
      */
     private $lastName;
 
-    // not mapped
-    private $fullName;
-
 
     /**
      * Get id
@@ -103,6 +100,11 @@ class Author
     public function getFullName()
     {
         return $this->firstName . ' ' . $this->lastName;
+    }
+
+    public function __toString()
+    {
+        return $this->getFullName();
     }
 }
 
