@@ -72,11 +72,6 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: Databundle:User
-
 sonata_block:
     default_contexts: [cms]
     blocks:
