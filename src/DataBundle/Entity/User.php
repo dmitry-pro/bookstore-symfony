@@ -34,7 +34,7 @@ class User extends BaseUser
      *     maxMessage="The first name is too long.",
      *     groups={"Registration", "Profile"}
      * )
-     * @ORM\Column(name="first_name", type="string", length=100)
+     * @ORM\Column(name="first_name", type="string", nullable=true, length=100)
      */
     protected $firstName;
 
@@ -50,7 +50,7 @@ class User extends BaseUser
      *     groups={"Registration", "Profile"}
      * )
      *
-     * @ORM\Column(name="last_name", type="string", length=100)
+     * @ORM\Column(name="last_name", type="string", nullable=true, length=100)
      */
     protected $lastName;
 
