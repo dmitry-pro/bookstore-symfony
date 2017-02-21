@@ -26,7 +26,7 @@ class BooksController extends Controller
     {
         $search = $request->get('search');
 
-        $books = $this->getBookRepository()->searchBooks($search);
+        $books = $this->getBookRepository()->findBooks($search);
 
         return [
             'books' => $books,
