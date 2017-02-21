@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use DataBundle\Repository\BookRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,8 +24,20 @@ class BooksController extends Controller
      */
     public function searchAction(Request $request)
     {
-        $query = $request->get('query');
+        $search = $request->get('search');
 
-        return [];
+        $books = $this->getBookRepository()->searchBooks($search);
+
+        return [
+            'books' => $books,
+        ];
+    }
+
+    /**
+     * @return BookRepository
+     */
+    protected function getBookRepository()
+    {
+        return $this->getDoctrine()->getManager()->getRepository('DataBundle:Book');
     }
 }
