@@ -33,17 +33,28 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
      * @return Paginator
      */
     public function findBooksPaginated($search, $limit = 0, $page = 1) {
-        $query = $this->createSearchQuery($search)->getQuery()
-            ->setFirstResult($limit * ($page - 1))
-            ;
+        $query = $this->addPaginationParams($this->createSearchQuery($search));
+        $paginator = new Paginator($query);
+
+        return $paginator;
+    }
+
+    /**
+     * @param QueryBuilder $query
+     * @param int $limit
+     * @param int $page
+     *
+     * @return QueryBuilder
+     */
+    protected function addPaginationParams(QueryBuilder $query, $limit = 0, $page = 1)
+    {
+        $query->setFirstResult($limit * ($page - 1));
 
         if ($limit > 0) {
             $query->setMaxResults($limit);
         }
 
-        $paginator = new Paginator($query);
-
-        return $paginator;
+        return $query;
     }
 
     /**
