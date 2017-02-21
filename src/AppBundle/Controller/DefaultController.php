@@ -13,6 +13,6 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->redirectToRoute('books_search');
+        return $this->redirectToRoute('books_index');
     }
 }
