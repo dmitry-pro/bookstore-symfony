@@ -2,6 +2,10 @@
 
 namespace DataBundle\Repository;
 
+use DataBundle\Entity\Book;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 /**
  * BookRepository
  *
@@ -10,4 +14,84 @@ namespace DataBundle\Repository;
  */
 class BookRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * @param $search
+     *
+     * @return Book[]
+     */
+    public function searchBooks($search) {
+
+        return $this->createSearchQuery($search)->getQuery()->getResult();
+    }
+
+    /**
+     * @param $search
+     * @param int $limit
+     * @param int $page
+     *
+     * @return Paginator
+     */
+    public function searchBooksPaginated($search, $limit = 0, $page = 1) {
+        $query = $this->createSearchQuery($search)->getQuery()
+            ->setFirstResult($limit * ($page - 1))
+            ;
+
+        if ($limit > 0) {
+            $query->setMaxResults($limit);
+        }
+
+        $paginator = new Paginator($query);
+
+        return $paginator;
+    }
+
+    /**
+     * Simple search: not fulltext one, but with every keyword matching.
+     * Will be slow on high loads.
+     *
+     * @param $search
+     * @param array [] $fields
+     *
+     * @return QueryBuilder
+     */
+    protected function createSearchQuery($search, $fields = []) {
+        if (empty($fields)) {
+            $fields = ['title', 'genre', 'author'];
+        }
+
+        $query = $this->createQueryBuilder('b');
+
+        if ($search) {
+
+            $words = preg_split('/\s+/', $search);
+            $clauses = [];
+            foreach ($words as $k => &$word) {
+                $word = '%' . $word . '%';
+                $clauses[] = '{field} LIKE :search_' . $k;
+                $query->setParameter('search_' . $k, $word);
+            }
+
+            $template = join(' AND ', $clauses);
+
+            if (in_array('title', $fields)) {
+                $query->orWhere(str_replace('{field}', 'b.title', $template));
+            }
+
+            if (in_array('author', $fields)) {
+                $query->join('b.author', 'a')
+                    ->orWhere(str_replace('{field}', 'a.firstName', $template))
+                    ->orWhere(str_replace('{field}', 'a.lastName', $template))
+                ;
+            }
+
+            if (in_array('genre', $fields)) {
+                $query->join('b.genre', 'g')
+                    ->orWhere(str_replace('{field}', 'g.title', $template))
+                ;
+            }
+        }
+
+        return $query;
+    }
 }
