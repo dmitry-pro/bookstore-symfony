@@ -20,7 +20,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return Book[]
      */
-    public function searchBooks($search) {
+    public function findBooks($search) {
 
         return $this->createSearchQuery($search)->getQuery()->getResult();
     }
@@ -32,7 +32,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return Paginator
      */
-    public function searchBooksPaginated($search, $limit = 0, $page = 1) {
+    public function findBooksPaginated($search, $limit = 0, $page = 1) {
         $query = $this->createSearchQuery($search)->getQuery()
             ->setFirstResult($limit * ($page - 1))
             ;
