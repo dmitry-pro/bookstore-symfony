@@ -37,6 +37,14 @@ framework:
     php_errors:
         log: true
 
+assetic:
+    write_to: '%kernel.root_dir%/../web/assets'
+    debug: "%kernel.debug%"
+    use_controller: "%kernel.debug%"
+    bundles: []
+    filters:
+        cssrewrite: ~
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"

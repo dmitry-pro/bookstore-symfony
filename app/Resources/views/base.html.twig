@@ -3,11 +3,26 @@
     <head>
         <meta charset="UTF-8" />
         <title>Bookstore - {% block title %}{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            {% stylesheets
+            'bundles/app/bootstrap/css/bootstrap.min.css'
+            'http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'
+            'bundles/app/style.css'
+            filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}"/>
+            {% endstylesheets %}
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            {% javascripts
+            'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'
+            'bundles/app/bootstrap/js/bootstrap.min.js'
+            %}
+            <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </body>
 </html>
