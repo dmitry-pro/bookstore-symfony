@@ -28,7 +28,7 @@ DataBundle\Entity\User:
 
     firstName:
       - NotBlank:
-          message: fos_user.email.blank
+          message: fos_user.firstName.blank
           groups: [AppRegistration, AppProfile]
       - Length:
           min: 2
@@ -39,7 +39,7 @@ DataBundle\Entity\User:
 
     lastName:
       - NotBlank:
-          message: fos_user.email.blank
+          message: fos_user.firstName.blank
           groups: [AppRegistration, AppProfile]
       - Length:
           min: 2
