@@ -1,0 +1,49 @@
+DataBundle\Entity\User:
+  constraints: ~
+  properties:
+    email:
+      - NotBlank:
+          message: fos_user.email.blank
+          groups: [AppRegistration, AppProfile]
+      - Length:
+          min: 2
+          minMessage: fos_user.email.short
+          max: 180
+          maxMessage: fos_user.email.long
+          groups: [AppRegistration, AppProfile]
+      - Email:
+          message: fos_user.email.invalid
+          groups: [AppRegistration, AppProfile]
+
+    plainPassword:
+      - NotBlank:
+          message: fos_user.password.blank
+          groups: [AppRegistration, AppProfile, AppResetPassword, AppChangePassword]
+      - Length:
+          min: 2
+          minMessage: fos_user.password.short
+          max: 4096
+          maxMessage: fos_user.password.long
+          groups: [AppRegistration, AppProfile, AppResetPassword, AppChangePassword]
+
+    firstName:
+      - NotBlank:
+          message: fos_user.email.blank
+          groups: [AppRegistration, AppProfile]
+      - Length:
+          min: 2
+          minMessage: fos_user.firstName.short
+          max: 4096
+          maxMessage: fos_user.firstName.long
+          groups: [AppRegistration, AppProfile]
+
+    lastName:
+      - NotBlank:
+          message: fos_user.email.blank
+          groups: [AppRegistration, AppProfile]
+      - Length:
+          min: 2
+          minMessage: fos_user.lastName.short
+          max: 4096
+          maxMessage: fos_user.lastName.long
+          groups: [AppRegistration, AppProfile]
