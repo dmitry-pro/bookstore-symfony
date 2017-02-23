@@ -44,6 +44,8 @@ fos_user:
     registration:
         form:
             type: UserBundle\Form\RegistrationType
+            validation_groups:  [AppProfile, Default]
     profile:
         form:
             type: UserBundle\Form\ProfileFormType
+            validation_groups:  [AppRegistration, Default]
