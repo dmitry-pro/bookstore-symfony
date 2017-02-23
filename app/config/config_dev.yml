@@ -1,5 +1,6 @@
 imports:
     - { resource: config.yml }
+    - { resource: services_dev.yml }
 
 framework:
     router:
@@ -13,6 +14,11 @@ web_profiler:
 
 monolog:
     handlers:
+        mailer:
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/mailer.%kernel.environment%.log'
+            channels: [mailer]
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
@@ -30,5 +36,6 @@ monolog:
         #    type:   chromephp
         #    level:  info
 
-#swiftmailer:
-#    delivery_addresses: ['me@example.com']
+swiftmailer:
+    disable_delivery:  true
+

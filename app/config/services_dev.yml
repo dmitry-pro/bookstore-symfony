@@ -1,0 +1,13 @@
+imports:
+    - { resource: services.yml }
+
+parameters:
+#    parameter_name: value
+
+services:
+  app.mailer_logger:
+      class:  AppBundle\Util\MailerLoggerUtil
+      arguments: ["@logger"]
+      tags:
+        - { name: monolog.logger, channel: mailer }
+        - { name: "swiftmailer.default.plugin" }
