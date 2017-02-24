@@ -18,11 +18,20 @@ class BooksController extends Controller
     public function indexAction(Request $request)
     {
         $search = $request->get('search');
+        $genre = $request->get('genre');
+        $author = $request->get('author');
+
         $page = $request->get('page', 1);
 
-        $books = $this->getBookRepository()->findBooksPaginated($search, static::BOOKS_PER_PAGE, $page);
+        $books = $this->getBookRepository()->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], static::BOOKS_PER_PAGE, $page);
+
+        // todo: cache
+        $genres = $this->getDoctrine()->getRepository('DataBundle:Genre')->findAll();
+        $authors = $this->getDoctrine()->getRepository('DataBundle:Author')->findAll();
 
         return [
+            'genres' => $genres,
+            'authors' => $authors,
             'books' => $books,
             'pagination' => $this->getPagination($page, static::BOOKS_PER_PAGE, $books->count())
         ];
@@ -33,7 +42,7 @@ class BooksController extends Controller
      */
     protected function getBookRepository()
     {
-        return $this->getDoctrine()->getManager()->getRepository('DataBundle:Book');
+        return $this->getDoctrine()->getRepository('DataBundle:Book');
     }
 
     /**
