@@ -4,7 +4,10 @@
     <div class="row-fluid">
         {% for book in books %}
             {{ book.title }}
-            <hr>
+            <br>
         {% endfor %}
+        <!-- Pagination -->
+        {% include 'pagination.html.twig' with {'current_page': 'books_index', 'items': books} %}
+        <!-- /Pagination -->
     </div>
 {% endblock %}
