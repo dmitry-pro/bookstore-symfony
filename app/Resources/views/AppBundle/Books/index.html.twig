@@ -11,8 +11,11 @@
         {% else %}
         {% for book in books %}
             <li class="list-group-item">
-                <a href="{{ path('books_index', {'author' : book.author.id }) }}">{{ book.author }}</a>
-                 - {{ book.title }} ({{ book.year }})
+                {% if book.author %}
+                    <a href="{{ path('books_index', {'author' : book.author.id }) }}">{{ book.author }}</a>
+                     -
+                {% endif %}
+                {{ book.title }} ({{ book.year }})
             </li>
         {% endfor %}
         {% endif %}
