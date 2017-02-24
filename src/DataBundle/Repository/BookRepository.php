@@ -33,7 +33,7 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
      * @return Paginator
      */
     public function findBooksPaginated($search, $limit = 0, $page = 1) {
-        $query = $this->addPaginationParams($this->createSearchQuery($search));
+        $query = $this->addPaginationParams($this->createSearchQuery($search), $limit, $page);
         $paginator = new Paginator($query);
 
         return $paginator;
@@ -90,14 +90,14 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             }
 
             if (in_array('author', $fields)) {
-                $query->join('b.author', 'a')
+                $query->leftJoin('b.author', 'a')
                     ->orWhere(str_replace('{field}', 'a.firstName', $template))
                     ->orWhere(str_replace('{field}', 'a.lastName', $template))
                 ;
             }
 
             if (in_array('genre', $fields)) {
-                $query->join('b.genre', 'g')
+                $query->leftJoin('b.genre', 'g')
                     ->orWhere(str_replace('{field}', 'g.title', $template))
                 ;
             }
