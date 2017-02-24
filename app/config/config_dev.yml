@@ -1,6 +1,9 @@
 imports:
     - { resource: config.yml }
 
+parameters:
+    mailer_transport: ton.email_bundle.swift.file_transport
+
 framework:
     router:
         resource: "%kernel.root_dir%/config/routing_dev.yml"
@@ -30,5 +33,5 @@ monolog:
         #    type:   chromephp
         #    level:  info
 
-#swiftmailer:
-#    delivery_addresses: ['me@example.com']
+swiftmailer:
+    transport: "%mailer_transport%"

@@ -15,5 +15,8 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
+    noreply_bot_email: noreply@nowhere.com
+    noreply_bot_name: Bookstore Bot
+
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt

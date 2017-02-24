@@ -49,3 +49,6 @@ fos_user:
         form:
             type: UserBundle\Form\ProfileFormType
             validation_groups:  [AppRegistration, Default]
+    from_email:
+        address: %noreply_bot_email%
+        sender_name: %noreply_bot_name%
