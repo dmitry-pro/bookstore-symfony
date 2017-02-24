@@ -2,12 +2,84 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>Bookstore - {% block title %}{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets
+            'bundles/app/bootstrap/css/bootstrap.min.css'
+            'http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'
+            'bundles/app/style.css'
+            filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}"/>
+            {% endstylesheets %}
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block flashes %}
+            {% if app.request.hasPreviousSession %}
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="flash-{{ type }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+        {% endblock %}
+
+        {% block top %}{% endblock %}
+
+        <nav class="top-nav">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="{{ 'homepage' == app.request.attributes.get('_route') ? 'active' : '' }}">
+                        <a href="{{ path('homepage') }}">Main page</a>
+                    </li>
+                    <li class="{{ 'books_index' == app.request.attributes.get('_route') ? 'active' : '' }}">
+                        <a href="{{ path('books_index') }}">Books</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="navbar-text">
+                        {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_profile_show') }}">Profile</a>
+                    </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('sonata_admin_redirect') }}">Backoffice</a>
+                            </li>
+                        {% endif %}
+                    <li>
+                        <a href="{{ path('fos_user_security_logout') }}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{{ path('fos_user_security_login') }}">Log in</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_registration_register') }}">Sign in</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_resetting_request') }}">Forgot password?</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            {% block body %}{% endblock %}
+        </div>
+
+        {% block javascripts %}
+            {% javascripts
+            'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'
+            'bundles/app/bootstrap/js/bootstrap.min.js'
+            %}
+            <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </body>
 </html>

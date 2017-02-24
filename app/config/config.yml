@@ -37,6 +37,14 @@ framework:
     php_errors:
         log: true
 
+assetic:
+    write_to: '%kernel.root_dir%/../web/assets'
+    debug: "%kernel.debug%"
+    use_controller: "%kernel.debug%"
+    bundles: []
+    filters:
+        cssrewrite: ~
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
@@ -71,11 +79,6 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
-
-fos_user:
-    db_driver: orm
-    firewall_name: main
-    user_class: Databundle:User
 
 sonata_block:
     default_contexts: [cms]
