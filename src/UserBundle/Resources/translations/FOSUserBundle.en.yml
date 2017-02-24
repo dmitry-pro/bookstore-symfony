@@ -1,0 +1,8 @@
+profile:
+    show:
+        firstName: First name
+        lastName: Last name
+
+form:
+    firstName: First name
+    lastName: Last name

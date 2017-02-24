@@ -1,0 +1,9 @@
+fos_user:
+    firstName:
+        blank: 'Please enter Your first name.'
+        short: 'The first name is too short.'
+        long: 'The first name is too long.'
+    lastName:
+        blank: 'Please enter Your last name.'
+        short: 'The last name is too short.'
+        long: 'The last name is too long.'
