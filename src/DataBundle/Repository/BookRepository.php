@@ -17,23 +17,25 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * @param $search
+     * @param array [] $filter
      *
      * @return Book[]
      */
-    public function findBooks($search) {
+    public function findBooks($search, $filter = []) {
 
-        return $this->createSearchQuery($search)->getQuery()->getResult();
+        return $this->createSearchQuery($search, $filter)->getQuery()->getResult();
     }
 
     /**
      * @param $search
+     * @param array [] $filter
      * @param int $limit
      * @param int $page
      *
      * @return Paginator
      */
-    public function findBooksPaginated($search, $limit = 0, $page = 1) {
-        $query = $this->addPaginationParams($this->createSearchQuery($search), $limit, $page);
+    public function findBooksPaginated($search, $filter = [], $limit = 0, $page = 1) {
+        $query = $this->addPaginationParams($this->createSearchQuery($search, $filter), $limit, $page);
         $paginator = new Paginator($query);
 
         return $paginator;
@@ -62,16 +64,22 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
      * Will be slow on high loads.
      *
      * @param $search
+     * @param array [] $filter
      * @param array [] $fields
      *
      * @return QueryBuilder
      */
-    protected function createSearchQuery($search, $fields = []) {
+    protected function createSearchQuery($search, $filter = [], $fields = []) {
         if (empty($fields)) {
             $fields = ['title', 'genre', 'author'];
         }
 
         $query = $this->createQueryBuilder('b');
+
+        $query
+            ->leftJoin('b.genre', 'g')
+            ->leftJoin('b.author', 'a')
+        ;
 
         if ($search) {
 
@@ -90,17 +98,31 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
             }
 
             if (in_array('author', $fields)) {
-                $query->leftJoin('b.author', 'a')
+                $query
                     ->orWhere(str_replace('{field}', 'a.firstName', $template))
                     ->orWhere(str_replace('{field}', 'a.lastName', $template))
                 ;
             }
 
             if (in_array('genre', $fields)) {
-                $query->leftJoin('b.genre', 'g')
+                $query
                     ->orWhere(str_replace('{field}', 'g.title', $template))
                 ;
             }
+        }
+
+        if ($filter && !empty($filter['genre'])) {
+            $query
+                ->andWhere('g.slug = :genre')
+                ->setParameter('genre', $filter['genre'])
+            ;
+        }
+
+        if ($filter && !empty($filter['author'])) {
+            $query
+                ->andWhere('a.id = :author')
+                ->setParameter('author', $filter['author'])
+            ;
         }
 
         return $query;
