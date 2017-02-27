@@ -44,4 +44,4 @@ Known issues
 
 1. No tests yet
 2. Irresponsible HTML (no adaptivity)
-
+3. Fixed books number per page (books_per_page parameter in parameters.yml)
