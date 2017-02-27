@@ -2,7 +2,10 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>Bookstore - {% block title %}{% endblock %}</title>
+        <title>Bookstore
+            {% if block('title') is not empty %} - {% endif %}
+            {% block title %}{% endblock %}
+        </title>
         {% block stylesheets %}
             {% stylesheets
             'bundles/app/bootstrap/css/bootstrap.min.css'
