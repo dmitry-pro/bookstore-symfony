@@ -23,7 +23,7 @@ class BooksController extends Controller
 
         $page = $request->get('page', 1);
 
-        $books = $this->getBookRepository()->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], static::BOOKS_PER_PAGE, $page);
+        $books = $this->getBookRepository()->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], $this->getParameter('books_per_page'), $page);
 
         // todo: cache
         $genres = $this->getDoctrine()->getRepository('DataBundle:Genre')->findAll();
