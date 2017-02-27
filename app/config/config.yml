@@ -13,7 +13,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -36,6 +36,14 @@ framework:
     assets: ~
     php_errors:
         log: true
+
+assetic:
+    write_to: '%kernel.root_dir%/../web/assets'
+    debug: "%kernel.debug%"
+    use_controller: "%kernel.debug%"
+    bundles: []
+    filters:
+        cssrewrite: ~
 
 # Twig Configuration
 twig:
@@ -72,3 +80,14 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        # Your other blocks
+        sonata.admin.block.search_result:
+            contexts:   [admin]
+        sonata.admin.block.stats:
+            contexts:   [admin]

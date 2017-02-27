@@ -1,0 +1,4 @@
+.select-with-text .input-group label, .select-with-text .input-group select {
+    width: auto !important;
+    display: inline-block;
+}

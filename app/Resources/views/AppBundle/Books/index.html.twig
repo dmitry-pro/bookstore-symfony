@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Books
+{% endblock %}
+
+{% block body %}
+    {% include 'search.html.twig' %}
+    <div class="row-fluid">
+        <ul class="list-group">
+        {% if books.count < 1 %}
+            <div style="text-align: center">
+                No books found.
+            </div>
+        {% else %}
+        {% for book in books %}
+            <li class="list-group-item">
+                {% if book.author %}
+                    <a href="{{ path('books_index', {'author' : book.author.id }) }}">{{ book.author }}</a>
+                     -
+                {% endif %}
+                {{ book.title }} ({{ book.year }})
+            </li>
+        {% endfor %}
+        {% endif %}
+        </ul>
+        <!-- Pagination -->
+        {% include 'pagination.html.twig' with {'current_page': 'books_index', 'pagination': pagination} %}
+        <!-- /Pagination -->
+    </div>
+{% endblock %}
