@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BooksController extends Controller
 {
-    const BOOKS_PER_PAGE = 2;
+
     /**
      * @Route("/books", name="books_index")
      * @Template(":AppBundle:Books/index.html.twig")
@@ -33,7 +33,7 @@ class BooksController extends Controller
             'genres' => $genres,
             'authors' => $authors,
             'books' => $books,
-            'pagination' => $this->getPagination($page, static::BOOKS_PER_PAGE, $books->count())
+            'pagination' => $this->getPagination($page, $this->getParameter('books_per_page'), $books->count())
         ];
     }
 
