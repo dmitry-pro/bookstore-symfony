@@ -3,6 +3,23 @@ bookstore-symfony
 
 Bookstore demo project, created to demonstrate ability to use Symfony key features.
 
+Environment
+=================
+
+ - PHP 5.5.9|7+
+ - MySQL 4+
+ - Ubuntu 12+
+ - Git
+
+Tools
+=================
+
+ - Symfony 3.2
+ - Doctrine
+ - SonataAdminBundle
+ - FOSUserBundle
+ - Twitter Bootstrap 3
+ - ...
 
 Install
 =================
