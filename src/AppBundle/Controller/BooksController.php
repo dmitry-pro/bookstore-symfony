@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use CommonBundle\Behavior\Controller\Pagination as PaginationTrait;
 use DataBundle\Repository\BookRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BooksController extends Controller
 {
+    use PaginationTrait;
 
     /**
      * @Route("/books", name="books_index")
@@ -45,24 +47,4 @@ class BooksController extends Controller
         return $this->getDoctrine()->getRepository('DataBundle:Book');
     }
 
-    /**
-     * @param int $page
-     * @param int $limitPerPage
-     * @param int $nbEntities
-     *
-     * @return array
-     */
-    protected function getPagination($page, $limitPerPage, $nbEntities)
-    {
-        $pagination = [
-            'page'       => $page,
-            'totalPages' => ceil($nbEntities / $limitPerPage)
-        ];
-
-        if ($pagination['totalPages'] <= 0) {
-            $pagination['totalPages'] = 1;
-        }
-
-        return $pagination;
-    }
 }
