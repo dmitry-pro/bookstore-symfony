@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new DataBundle\DataBundle(),
             new UserBundle\UserBundle(),
             new BackofficeBundle\BackofficeBundle(),
+            new CommonBundle\CommonBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
