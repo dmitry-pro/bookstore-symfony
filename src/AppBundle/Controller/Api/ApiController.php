@@ -12,6 +12,7 @@ use \FOS\RestBundle\Controller\Annotations as REST;
 class ApiController extends FOSRestController
 {
     // todo: many different REST controllers with semantic actions
+    // todo: API versions
 
     /**
      * @Route("/api/books.{_format}", defaults={"_format" = "json"}, name="api_books_index")
