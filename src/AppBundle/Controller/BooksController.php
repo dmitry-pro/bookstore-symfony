@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use DataBundle\Repository\BookRepository;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,40 +25,30 @@ class BooksController extends Controller
 
         $page = $request->get('page', 1);
 
-        $books = $this->getDoctrine()->getRepository('DataBundle:Book')->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], $this->getParameter('books_per_page'), $page);
+        $booksPerPage = $this->getParameter('books_per_page');
+
+        $qb = $this->getDoctrine()->getRepository('DataBundle:Book')->findBooksQueryBuilder($search, ['genre' => $genre, 'author' => $author]);
+        $adapter = new DoctrineORMAdapter($qb);
+        $pagerFanta = new Pagerfanta($adapter);
+        $pagerFanta->setMaxPerPage($booksPerPage); // todo: override ability
+        $pagerFanta->setCurrentPage($page);
 
         // todo: cache
         $genres = $this->getDoctrine()->getRepository('DataBundle:Genre')->findAll();
         $authors = $this->getDoctrine()->getRepository('DataBundle:Author')->findAll();
 
+        $books = $pagerFanta->getCurrentPageResults();
+
         return [
             'genres' => $genres,
             'authors' => $authors,
             'books' => $books,
-            'pagination' => $this->getPagination($page, $this->getParameter('books_per_page'), $books->count())
+            // todo: simplify widget
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $pagerFanta->getNbPages(),
+            ]
         ];
     }
 
-    /**
-     * todo: rewrite to PagerFanta
-     *
-     * @param int $page
-     * @param int $limitPerPage
-     * @param int $nbEntities
-     *
-     * @return array
-     */
-    protected function getPagination($page, $limitPerPage, $nbEntities)
-    {
-        $pagination = [
-            'page'       => $page,
-            'totalPages' => ceil($nbEntities / $limitPerPage)
-        ];
-
-        if ($pagination['totalPages'] <= 0) {
-            $pagination['totalPages'] = 1;
-        }
-
-        return $pagination;
-    }
 }
