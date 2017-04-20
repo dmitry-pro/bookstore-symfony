@@ -35,6 +35,7 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/books, role: ROLE_USER }
+        - { path: ^/api, role: ROLE_USER }
         - { path: ^/admin/, role: ROLE_ADMIN }
 
 fos_user:
