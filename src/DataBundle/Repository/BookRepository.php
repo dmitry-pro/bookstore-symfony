@@ -27,6 +27,8 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * // todo: deprecate
+     *
      * @param $search
      * @param array [] $filter
      * @param int $limit
@@ -40,6 +42,20 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
 
         return $paginator;
     }
+
+    /**
+     * // todo: refactor
+     *
+     * @param $search
+     * @param array $filter
+     *
+     * @return QueryBuilder
+     */
+    public function findBooksQueryBuilder($search, $filter = []) {
+
+        return $this->createSearchQuery($search, $filter);
+    }
+
 
     /**
      * @param QueryBuilder $query

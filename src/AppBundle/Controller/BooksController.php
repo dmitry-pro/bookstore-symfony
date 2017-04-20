@@ -23,7 +23,7 @@ class BooksController extends Controller
 
         $page = $request->get('page', 1);
 
-        $books = $this->getBookRepository()->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], $this->getParameter('books_per_page'), $page);
+        $books = $this->getDoctrine()->getRepository('DataBundle:Book')->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], $this->getParameter('books_per_page'), $page);
 
         // todo: cache
         $genres = $this->getDoctrine()->getRepository('DataBundle:Genre')->findAll();
@@ -38,14 +38,8 @@ class BooksController extends Controller
     }
 
     /**
-     * @return BookRepository
-     */
-    protected function getBookRepository()
-    {
-        return $this->getDoctrine()->getRepository('DataBundle:Book');
-    }
-
-    /**
+     * todo: rewrite to PagerFanta
+     *
      * @param int $page
      * @param int $limitPerPage
      * @param int $nbEntities

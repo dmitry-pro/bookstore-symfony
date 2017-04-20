@@ -91,3 +91,9 @@ sonata_block:
             contexts:   [admin]
         sonata.admin.block.stats:
             contexts:   [admin]
+
+# REST
+fos_rest:
+    view:
+        view_response_listener: true
+    format_listener: true

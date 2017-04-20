@@ -35,3 +35,8 @@ monolog:
 
 swiftmailer:
     transport: "%mailer_transport%"
+
+jms_serializer:
+    visitors:
+        json:
+            options: JSON_PRETTY_PRINT

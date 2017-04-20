@@ -13,3 +13,6 @@ fos_user:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+app_api:
+    resource: "@AppBundle/Controller/Api"
+    type:     annotation
