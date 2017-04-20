@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use DataBundle\Repository\BookRepository;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -25,12 +24,12 @@ class BooksController extends Controller
 
         $page = $request->get('page', 1);
 
-        $booksPerPage = $this->getParameter('books_per_page');
+        $booksPerPage = $request->get('items_per_page', $this->getParameter('books_per_page'));
 
         $qb = $this->getDoctrine()->getRepository('DataBundle:Book')->findBooksQueryBuilder($search, ['genre' => $genre, 'author' => $author]);
         $adapter = new DoctrineORMAdapter($qb);
         $pagerFanta = new Pagerfanta($adapter);
-        $pagerFanta->setMaxPerPage($booksPerPage); // todo: override ability
+        $pagerFanta->setMaxPerPage($booksPerPage);
         $pagerFanta->setCurrentPage($page);
 
         // todo: cache
@@ -43,7 +42,6 @@ class BooksController extends Controller
             'genres' => $genres,
             'authors' => $authors,
             'books' => $books,
-            // todo: simplify widget
             'pagination' => [
                 'page' => $page,
                 'totalPages' => $pagerFanta->getNbPages(),
