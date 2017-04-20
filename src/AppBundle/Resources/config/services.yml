@@ -1,0 +1,6 @@
+services:
+    app.array_twig_extension:
+        class: AppBundle\Twig\ArrayExtension
+        public: false
+        tags:
+            - { name: twig.extension }
