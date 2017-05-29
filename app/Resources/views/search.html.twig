@@ -5,12 +5,18 @@
                 <div class="navbar-form select-with-text">
                     <div class="input-group">
                         <label class="form-control" for="">Genre</label>
-                        <select name="genre" id="" class="form-control selectpicker">
+                        <select name="genre" id="genre_input" class="form-control selectpicker">
                             <option value>----------</option>
                             {% for genre in genres %}
                                 <option value="{{ genre.slug }}" {{ app.request.query.get('genre') == genre.slug ? 'selected' : '' }}>{{ genre }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+                </div>
+                <div class="navbar-form select-with-text">
+                    <div class="input-group">
+                        <label class="form-control" for="books_per_page_input">Books per page</label>
+                        <input name="books_per_page" id="books_per_page_input" class="form-control" value="{{ booksPerPage }}">
                     </div>
                 </div>
             </div>
