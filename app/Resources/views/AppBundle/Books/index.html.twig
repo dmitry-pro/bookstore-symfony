@@ -25,7 +25,7 @@
         {% endif %}
         </ul>
         <!-- Pagination -->
-        {% include 'pagination.html.twig' with {'current_page': 'books_index', 'pagination': pagination} %}
+        {% include 'pagination.html.twig' with {'current_route': 'books_index', 'pagination': pagination} %}
         <!-- /Pagination -->
     </div>
 {% endblock %}
