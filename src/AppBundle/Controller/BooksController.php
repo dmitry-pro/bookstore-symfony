@@ -23,9 +23,14 @@ class BooksController extends Controller
         $genre = $request->get('genre');
         $author = $request->get('author');
 
+        $booksPerPage = (int) $request->get('books_per_page', $this->getParameter('books_per_page_default'));
+        if ($booksPerPage > $this->getParameter('books_per_page_max')) {
+            $booksPerPage = $this->getParameter('books_per_page_max');
+        }
+
         $page = $request->get('page', 1);
 
-        $books = $this->getBookRepository()->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], $this->getParameter('books_per_page'), $page);
+        $books = $this->getBookRepository()->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], $booksPerPage, $page);
 
         // todo: cache
         $genres = $this->getDoctrine()->getRepository('DataBundle:Genre')->findAll();
@@ -35,7 +40,8 @@ class BooksController extends Controller
             'genres' => $genres,
             'authors' => $authors,
             'books' => $books,
-            'pagination' => $this->getPagination($page, $this->getParameter('books_per_page'), $books->count())
+            'booksPerPage' => $booksPerPage,
+            'pagination' => $this->getPagination($page, $booksPerPage, $books->count())
         ];
     }
 
