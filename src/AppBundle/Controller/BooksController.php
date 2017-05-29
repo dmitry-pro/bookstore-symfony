@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use CommonBundle\Behavior\Controller\Pagination as PaginationTrait;
 use DataBundle\Repository\BookRepository;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,7 +32,12 @@ class BooksController extends Controller
 
         $page = $request->get('page', 1);
 
-        $books = $this->getBookRepository()->findBooksPaginated($search, ['genre' => $genre, 'author' => $author], $booksPerPage, $page);
+        $query = $this->getBookRepository()->findBooksQueryBuilder($search, ['genre' => $genre, 'author' => $author]);
+        $books = new Pagerfanta(new DoctrineORMAdapter($query));
+        $books
+            ->setMaxPerPage($booksPerPage)
+            ->setCurrentPage($page)
+        ;
 
         // todo: cache
         $genres = $this->getDoctrine()->getRepository('DataBundle:Genre')->findAll();
@@ -41,7 +48,7 @@ class BooksController extends Controller
             'authors' => $authors,
             'books' => $books,
             'booksPerPage' => $booksPerPage,
-            'pagination' => $this->getPagination($page, $booksPerPage, $books->count())
+            'pagination' => $this->getPagination($page, $booksPerPage, $books->getNbResults())
         ];
     }
 
