@@ -1,21 +1,21 @@
 {% if pagination.totalPages > 1 %}
-{% set attrs = app.request.attributes|merge(app.request.query)|remove_array_keys(['_route']) %}
+{% set attrs = app.request.attributes|merge(app.request.query) %}
 <div class="well text-center top-border-only">
     <ul class="pagination text-center">
         {% if pagination.page > 1 %}
-            <li><a href="{{ path(current_page, attrs|merge({ 'page': 1 })) }}"><<</a></li>
+            <li><a href="{{ path(current_route, attrs|merge({ 'page': 1 })) }}"><<</a></li>
             {% if pagination.totalPages > 2 %}
-                <li><a href="{{ path(current_page, attrs|merge({ 'page': pagination.page - 1 })) }}"><</a></li>
+                <li><a href="{{ path(current_route, attrs|merge({ 'page': pagination.page - 1 })) }}"><</a></li>
             {% endif %}
         {% endif %}
         {% for p in range(max(pagination.page-3, 1), min(pagination.page+3, pagination.totalPages)) %}
-            <li {% if p == pagination.page %} class="active"{% endif %}><a href="{{ path(current_page, attrs|merge({ 'page': p })) }}">{{ p }}</a></li>
+            <li {% if p == pagination.page %} class="active"{% endif %}><a href="{{ path(current_route, attrs|merge({ 'page': p })) }}">{{ p }}</a></li>
         {% endfor %}
         {% if pagination.page < pagination.totalPages %}
             {% if pagination.totalPages > 2 %}
-                <li><a href="{{ path(current_page, attrs|merge({ 'page': pagination.page + 1 })) }}">></a></li>
+                <li><a href="{{ path(current_route, attrs|merge({ 'page': pagination.page + 1 })) }}">></a></li>
             {% endif %}
-            <li><a href="{{ path(current_page, attrs|merge({ 'page': pagination.totalPages })) }}">>></a></li>
+            <li><a href="{{ path(current_route, attrs|merge({ 'page': pagination.totalPages })) }}">>></a></li>
         {% endif %}
     </ul>
 </div>
