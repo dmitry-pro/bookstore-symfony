@@ -17,3 +17,4 @@
 /web/assets/*
 !/web/assets/.gitkeep
 .idea
+/composer.phar

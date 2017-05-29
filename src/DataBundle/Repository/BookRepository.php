@@ -3,8 +3,11 @@
 namespace DataBundle\Repository;
 
 use DataBundle\Entity\Book;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
  * BookRepository
@@ -32,31 +35,11 @@ class BookRepository extends \Doctrine\ORM\EntityRepository
      * @param int $limit
      * @param int $page
      *
-     * @return Paginator
+     * @return Query
      */
-    public function findBooksPaginated($search, $filter = [], $limit = 0, $page = 1) {
-        $query = $this->addPaginationParams($this->createSearchQuery($search, $filter), $limit, $page);
-        $paginator = new Paginator($query);
+    public function findBooksQueryBuilder($search, $filter = [], $limit = 0, $page = 1) {
 
-        return $paginator;
-    }
-
-    /**
-     * @param QueryBuilder $query
-     * @param int $limit
-     * @param int $page
-     *
-     * @return QueryBuilder
-     */
-    protected function addPaginationParams(QueryBuilder $query, $limit = 0, $page = 1)
-    {
-        $query->setFirstResult($limit * ($page - 1));
-
-        if ($limit > 0) {
-            $query->setMaxResults($limit);
-        }
-
-        return $query;
+        return $this->createSearchQuery($search, $filter)->getQuery();
     }
 
     /**
