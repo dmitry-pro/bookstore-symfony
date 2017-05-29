@@ -1,5 +1,5 @@
 {% if pagination.totalPages > 1 %}
-{% set attrs = app.request.attributes|merge(app.request.query) %}
+{% set attrs = app.request.attributes|merge(app.request.query)|remove_array_keys(['_route']) %}
 <div class="well text-center top-border-only">
     <ul class="pagination text-center">
         {% if pagination.page > 1 %}

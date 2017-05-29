@@ -1,4 +1,5 @@
 services:
-#    common.example:
-#        class: CommonBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    common.twig.array_helpers:
+        class: CommonBundle\Twig\ArrayHelpersExtension
+        tags:
+            - {name: twig.extension}
